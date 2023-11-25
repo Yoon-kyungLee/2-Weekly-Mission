@@ -81,7 +81,6 @@ export async function checkDuplicateEmail() {
     });
     if (checkEmailResponse.status === 409) {
         showEmailError(ERROR_MESSAGES.duplicateEmail);
-      } else if (checkEmailResponse.ok) {
       }
   } catch (error) {
     console.log(error.message);
