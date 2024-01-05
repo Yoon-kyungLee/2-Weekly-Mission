@@ -5,7 +5,7 @@ import kebab from "../../../assets/kebab.png";
 function Kebab() {
   const [isOpen, setIsOpen] = useState(false);
 
-  const handleButton = useCallback((e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+  const handleButton = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
     e.stopPropagation();
     setIsOpen((prev) => !prev);
   }, []);
@@ -50,7 +50,6 @@ const StyledKebob = styled.div`
   width: 2.1rem;
   height: 1.7rem;
   cursor: pointer;
-  z-index: 1;
 `;
 
 const StyledPopup = styled.ul`

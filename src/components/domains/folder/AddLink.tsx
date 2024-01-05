@@ -6,6 +6,7 @@ import addLink from "../../../assets/add-link.png";
 import checkIcon from "../../../assets/check.svg";
 import useModal, { ModalProps } from "../../../hooks/useModal";
 import React from "react";
+import ModalPotal from "../../../helpers/Portal";
 
 interface FolderLinkButtonProps {
   folderId?: number;
@@ -13,13 +14,13 @@ interface FolderLinkButtonProps {
   onClick?: () => void;
 }
 
-const FolderLinkButton: FC<FolderLinkButtonProps> = ({ folderId, folderName, onClick }) => {
+const FolderLinkButton = ({ folderId, folderName, onClick }: FolderLinkButtonProps) => {
   const [isActive, setIsActive] = useState(false);
   const [links, setLinks] = useState<LinkData[]>([]);
 
   useEffect(() => {
     const fetchLinks = async () => {
-      const apiEndpoint: number = folderId && folderId;
+      const apiEndpoint: any = folderId;
 
       const link = await getLinks(apiEndpoint);
       setLinks(link.data);
@@ -36,11 +37,11 @@ const FolderLinkButton: FC<FolderLinkButtonProps> = ({ folderId, folderName, onC
   };
 
   return (
-    <LinkButton onClick={handleFolderClick}>
+    <StyledLinkButton onClick={handleFolderClick}>
       <div>{folderName}</div>
       <span>{`${links ? links.length : 0}개 링크`}</span>
       {isActive && <img src={checkIcon} alt="check icon" />}
-    </LinkButton>
+    </StyledLinkButton>
   );
 };
 
@@ -58,11 +59,11 @@ function FolderLinks() {
   }, []);
 
   return (
-    <FolderLinkList>
+    <StyledFolderLinkList>
       {folders.map((folder) => (
         <FolderLinkButton key={folder.id} folderId={folder.id} folderName={folder.name} />
       ))}
-    </FolderLinkList>
+    </StyledFolderLinkList>
   );
 }
 
@@ -106,33 +107,35 @@ function AddLink() {
 
   return (
     // <AddLinkSection ref={addLinkRef}>
-    <AddLinkSection>
-      <AddLinkBar>
-        <AddLinkContainer>
-          <AddLinkInput placeholder="링크를 추가해 보세요" value={linkInput} onChange={handleInputChange} />
-          <AddLinkImg src={addLink} alt="링크 아이콘" />
-          <AddLinkButton onClick={openModal}>추가하기</AddLinkButton>
-          {(Modal as FC<ModalProps>)({
-            title: "폴더에 추가",
-            link: linkInput,
-            list: <FolderLinks />,
-            button: "추가하기",
-            color: "blue",
-          })}
-        </AddLinkContainer>
-      </AddLinkBar>
-    </AddLinkSection>
+    <StyledAddLinkSection>
+      <StyledAddLinkBar>
+        <StyledAddLinkContainer>
+          <StyledAddLinkInput placeholder="링크를 추가해 보세요" value={linkInput} onChange={handleInputChange} />
+          <StyledAddLinkImg src={addLink} alt="링크 아이콘" />
+          <StyledAddLinkButton onClick={openModal}>추가하기</StyledAddLinkButton>
+          <ModalPotal>
+            {(Modal as FC<ModalProps>)({
+              title: "폴더에 추가",
+              link: linkInput,
+              list: <FolderLinks />,
+              button: "추가하기",
+              color: "blue",
+            })}
+          </ModalPotal>
+        </StyledAddLinkContainer>
+      </StyledAddLinkBar>
+    </StyledAddLinkSection>
   );
 }
 
 export default AddLink;
 
-const AddLinkSection = styled.div`
+const StyledAddLinkSection = styled.div`
   background-color: var(--gray-bg-color);
   padding: 3.2rem;
 `;
 
-const AddLinkBar = styled.div`
+const StyledAddLinkBar = styled.div`
   background-color: var(--gray-bg-color);
   padding: 2.4rem;
   z-index: 9;
@@ -142,13 +145,13 @@ const AddLinkBar = styled.div`
     padding-right: 3.2rem;
   }
 `;
-const AddLinkContainer = styled.div`
+const StyledAddLinkContainer = styled.div`
   position: relative;
   max-width: 80rem;
   margin: auto;
 `;
 
-const AddLinkInput = styled.input`
+const StyledAddLinkInput = styled.input`
   width: 100%;
   padding-left: 5rem;
   height: 6.9rem;
@@ -158,7 +161,7 @@ const AddLinkInput = styled.input`
   font-size: 1.6rem;
 `;
 
-export const AddLinkButton = styled.button`
+const StyledAddLinkButton = styled.button`
   background-image: var(--gradient-purpleblue-skyblue);
   color: var(--white-color);
   border-radius: 0.8rem;
@@ -172,14 +175,14 @@ export const AddLinkButton = styled.button`
   padding: 1rem 1.6rem;
 `;
 
-export const AddLinkImg = styled.img`
+const StyledAddLinkImg = styled.img`
   position: absolute;
   top: 50%;
   left: 2rem;
   transform: translateY(-50%);
 `;
 
-const LinkButton = styled.button`
+const StyledLinkButton = styled.button`
   display: flex;
   align-items: center;
   gap: 0.8rem;
@@ -211,7 +214,7 @@ const LinkButton = styled.button`
     height: 1.4rem;
   }
 `;
-const FolderLinkList = styled.div`
+const StyledFolderLinkList = styled.div`
   display: flex;
   flex-direction: column;
 `;

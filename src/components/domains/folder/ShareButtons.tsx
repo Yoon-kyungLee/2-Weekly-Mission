@@ -1,4 +1,4 @@
-import React, { useState, FC } from "react";
+import { useState } from "react";
 import styled from "styled-components";
 import kakaoShare from "../../../assets/Kakao-share.png";
 import facebookShare from "../../../assets/Facebook-share.png";
@@ -8,7 +8,7 @@ interface ShareButtonsProps {
   folderId?: number;
 }
 
-const ShareButtons: FC<ShareButtonsProps> = ({ folderId }) => {
+const ShareButtons = ({ folderId }: ShareButtonsProps) => {
   const [copied, setCopied] = useState(false);
 
   const shareLink = `${window.location.origin}/shared?user=1&folder=${folderId}`;
@@ -23,44 +23,44 @@ const ShareButtons: FC<ShareButtonsProps> = ({ folderId }) => {
   };
 
   return (
-    <ModalShareSNS>
-      <ShareSNS
+    <StyledModalShareSNS>
+      <StyledShareSNS
         href={`https://www.kakaotalk.com/sharer/kakao?u=${encodeURIComponent(shareLink)}`}
         target="_blank"
         rel="noopener noreferrer"
       >
-        <ShareIcon src={kakaoShare} alt="kakao share" />
+        <StyledShareIcon src={kakaoShare} alt="kakao share" />
         카카오톡
-      </ShareSNS>
-      <ShareSNS
+      </StyledShareSNS>
+      <StyledShareSNS
         href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareLink)}`}
         target="_blank"
         rel="noopener noreferrer"
       >
-        <ShareIcon src={facebookShare} alt="facebook share" />
+        <StyledShareIcon src={facebookShare} alt="facebook share" />
         페이스북
-      </ShareSNS>
-      <ShareLink onClick={copyToClipboard} onMouseLeave={resetCopiedStatus}>
-        <ShareIcon src={linkShare} alt="linkshare" />
+      </StyledShareSNS>
+      <StyledShareLinkButton onClick={copyToClipboard} onMouseLeave={resetCopiedStatus}>
+        <StyledShareIcon src={linkShare} alt="linkshare" />
         {copied ? "복사 완료!" : "링크 복사"}
-      </ShareLink>
-    </ModalShareSNS>
+      </StyledShareLinkButton>
+    </StyledModalShareSNS>
   );
 };
 
 export default ShareButtons;
 
-const ModalShareSNS = styled.div`
+const StyledModalShareSNS = styled.div`
   display: flex;
   gap: 3.2rem;
 `;
 
-const ShareIcon = styled.img`
+const StyledShareIcon = styled.img`
   width: 4rem;
   height: 4rem;
 `;
 
-const ShareSNS = styled.a`
+const StyledShareSNS = styled.a`
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -70,7 +70,7 @@ const ShareSNS = styled.a`
   font-size: 1.3rem;
 `;
 
-const ShareLink = styled.button`
+const StyledShareLinkButton = styled.button`
   display: flex;
   flex-direction: column;
   gap: 1rem;

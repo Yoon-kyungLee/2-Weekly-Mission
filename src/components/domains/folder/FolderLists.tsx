@@ -5,12 +5,10 @@ import FolderButton from "./FolderButton";
 import FolderCardList from "./FolderCardList";
 import Option from "./Option";
 import addIcon from "../../../assets/add-icon.svg";
-import React from "react";
 import { FolderData, LinkData } from "../../../utils/interface";
-import SearchBar from "../../commons/SearchBar";
 
 interface SelectedFolder {
-  id: number;
+  id: any;
   name: string;
   link?: LinkData[];
 }
@@ -20,10 +18,10 @@ function FolderLists() {
   const [selected, setSelected] = useState<SelectedFolder>({
     id: null,
     name: "전체",
-    link: [],
+    // link: [],
   });
-  const [search, setSearch] = useState<string>("");
-  const [filteredLinks, setFilteredLinks] = useState<LinkData[]>([]);
+  // const [search, setSearch] = useState<string>("");
+  // const [filteredLinks, setFilteredLinks] = useState<LinkData[]>([]);
 
   useEffect(() => {
     const fetchFolders = async () => {
@@ -37,34 +35,28 @@ function FolderLists() {
 
   const isFolderSelected = selected.id !== null && selected.name !== "전체";
 
-  const handleSearch = (value: string) => {
-    setSearch(value);
-  };
-
-  useEffect(() => {
-    const lowerCasedValue = search.toLowerCase();
-    if (search) {
-      const filtered = selected.link.filter(
-        (link) =>
-          (link.url && link.url.includes(lowerCasedValue)) ||
-          (link.title && link.title.includes(lowerCasedValue)) ||
-          (link.description && link.description.includes(lowerCasedValue))
-      );
-      setFilteredLinks(filtered);
-    } else {
-      setFilteredLinks(selected.link);
-    }
-  }, [search, selected.link]);
+  // useEffect(() => {
+  //   const lowerCasedValue = search.toLowerCase();
+  //   if (search) {
+  //     const filtered = selected.link.filter((link) => {
+  //       return (
+  //         (link.url && link.url.includes(lowerCasedValue)) ||
+  //         (link.title && link.title.includes(lowerCasedValue)) ||
+  //         (link.description && link.description.includes(lowerCasedValue))
+  //       );
+  //     });
+  //     setFilteredLinks(filtered);
+  //   } else {
+  //     setFilteredLinks(selected.link);
+  //   }
+  // }, [search, selected.link]);
 
   const handleFolderClick = ({ folderId, folderName }: { folderId: number; folderName: string }) => {
     setSelected({ id: folderId, name: folderName, link: [] });
   };
 
-  console.log(search);
-
   return (
     <>
-      <SearchBar onSearch={handleSearch} />
       <StyledFolders>
         <StyledFoldersTop>
           <StyledFolderButtons>
@@ -84,7 +76,7 @@ function FolderLists() {
           <StyledFolderName>{selected.name}</StyledFolderName>
           {isFolderSelected ? <Option folderName={selected.name} folderId={selected.id} /> : null}
         </StyledNameAndOption>
-        <FolderCardList folderId={selected.id} link={filteredLinks} />
+        <FolderCardList folderId={selected.id} />
       </StyledFolders>
     </>
   );

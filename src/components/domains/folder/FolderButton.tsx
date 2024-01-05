@@ -1,5 +1,5 @@
-import React, { useState } from "react";
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 
 interface FolderButtonProps {
   folderName: string;
@@ -9,14 +9,15 @@ interface FolderButtonProps {
 }
 
 function FolderButton({ folderId, folderName, onFolderClick }: FolderButtonProps) {
-  const [isActive, setIsActive] = useState<boolean>(false);
-
   const handleFolderClick = () => {
-    setIsActive(!isActive);
     onFolderClick({ folderId, folderName });
   };
 
-  return <StyledFolderButton onClick={handleFolderClick}>{folderName}</StyledFolderButton>;
+  return (
+    <Link to={`/folder/${folderId}`}>
+      <StyledFolderButton onClick={handleFolderClick}>{folderName}</StyledFolderButton>
+    </Link>
+  );
 }
 
 export default FolderButton;

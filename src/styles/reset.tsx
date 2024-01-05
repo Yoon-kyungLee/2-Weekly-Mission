@@ -87,8 +87,6 @@ export const reset = css`
     margin: 0;
     padding: 0;
     border: 0;
-    /* 캐스케이딩 이슈 */
-    /* font: inherit; */
     font-size: 62.5%;
     font-family: "Pretendard Variable", sans-serif;
     vertical-align: baseline;

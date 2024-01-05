@@ -1,9 +1,9 @@
-import React, { FC } from "react";
 import styled from "styled-components";
 import shareIcon from "../../../assets/share.png";
 import renameIcon from "../../../assets/pen.png";
 import deleteIcon from "../../../assets/delete.png";
 import useModal from "../../../hooks/useModal";
+import ModalPotal from "../../../helpers/Portal";
 
 interface OptionButtonProps {
   onClick?: (folderId?: number) => void;
@@ -13,7 +13,7 @@ interface OptionButtonProps {
   folderId?: number;
 }
 
-const OptionButton: FC<OptionButtonProps> = ({ onClick, icon, altText, text, folderId }) => {
+const OptionButton = ({ onClick, icon, altText, text, folderId }: OptionButtonProps) => {
   return (
     <StyledOptionButton onClick={() => onClick && onClick(folderId)}>
       <img src={icon} alt={altText} />
@@ -30,11 +30,27 @@ function Option({ folderName, folderId }: { folderName: string; folderId: number
   return (
     <StyledOption>
       <OptionButton onClick={openShareModal} icon={shareIcon} altText="share icon" text="공유" />
-      {ShareModal && <ShareModal title="폴더 공유" link={folderName} shareSNS folderId={folderId} />}
+      <ModalPotal>
+        {ShareModal && <ShareModal title="폴더 공유" link={folderName} shareSNS folderId={folderId} />}
+      </ModalPotal>
+
       <OptionButton onClick={openRenameModal} icon={renameIcon} altText="rename icon" text="이름 변경" />
-      {RenameModal && <RenameModal title="폴더 이름 변경" input="폴더 이름" button="변경하기" color="blue" />}
+      <ModalPotal>
+        {RenameModal && (
+          <RenameModal
+            title="폴더 이름 변경"
+            input="폴더 이름"
+            button="변경하기"
+            color="blue"
+            placeholder="폴더 이름을 입력해주세요."
+          />
+        )}
+      </ModalPotal>
+
       <OptionButton onClick={openDeleteModal} icon={deleteIcon} altText="delete icon" text="삭제" />
-      {DeleteModal && <DeleteModal title="폴더 삭제" link={folderName} button="삭제하기" color="red" />}
+      <ModalPotal>
+        {DeleteModal && <DeleteModal title="폴더 삭제" link={folderName} button="삭제하기" color="red" />}
+      </ModalPotal>
     </StyledOption>
   );
 }

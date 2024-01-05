@@ -1,5 +1,5 @@
 import { getSharedFolders } from "../../../services/api";
-import React, { useEffect, useState, FC } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 
 interface Owner {
@@ -17,7 +17,7 @@ interface ProfileInfoProps {
   name: string;
 }
 
-const ProfileInfo: FC<ProfileInfoProps> = ({ owner, name }) => {
+const ProfileInfo = ({ owner, name }: ProfileInfoProps) => {
   if (!owner) return <p>로그인 정보가 없습니다.</p>;
   return (
     <StyledProfile>

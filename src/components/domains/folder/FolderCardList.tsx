@@ -18,7 +18,7 @@ interface FolderCardProps {
 
 interface FolderCardListProps {
   folderId: number;
-  link: LinkData[];
+  link?: LinkData[];
 }
 
 function FolderCard({ card }: FolderCardProps) {

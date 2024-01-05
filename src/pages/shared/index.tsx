@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import Gnb from "../../components/commons/Gnb";
 import Profile from "../../components/domains/shared/Profile";
-import SearchBar from "../../components/commons/SearchBar";
+// import SearchBar from "../../components/commons/SearchBar";
 import SharedCardList from "../../components/domains/shared/SharedCardList";
 import Footer from "../../components/commons/Footer";
 

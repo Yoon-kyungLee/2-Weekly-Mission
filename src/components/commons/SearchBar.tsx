@@ -4,15 +4,19 @@ import searchIcon from "../../assets/Search.png";
 import closeIcon from "../../assets/_close.png";
 
 interface SearchBarProps {
-  onSearch: (value: string) => void;
+  // onSearch: (value: string) => void;
 }
 
-function SearchBar({ onSearch }: SearchBarProps) {
+function SearchBar() {
   const [value, setValue] = useState("");
 
-  const handleSearch = () => {
-    onSearch(value);
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setValue(e.target.value);
   };
+
+  // const handleSearch = () => {
+  //   onSearch(value);
+  // };
 
   const handleClear = () => {
     setValue("");
@@ -25,8 +29,8 @@ function SearchBar({ onSearch }: SearchBarProps) {
         <SearchBarInput
           placeholder="링크로 검색해 보세요."
           value={value}
-          onChange={(e) => setValue(e.target.value)}
-          onKeyDown={(e) => e.key === "Enter" && handleSearch()}
+          onChange={handleChange}
+          onKeyDown={(e) => e.key === "Enter"}
         />
         {value && <CloseIcon onClick={handleClear} />}
       </SearchBarContainer>
@@ -39,6 +43,7 @@ export default SearchBar;
 const SearchBarContainer = styled.div`
   position: relative;
 `;
+
 const SearchBarInput = styled.input`
   background-color: #f5f5f5;
   width: 100%;

@@ -1,10 +1,10 @@
-import React from "react";
 import styled from "styled-components";
 import Gnb from "../../components/commons/Gnb";
 import AddLink from "../../components/domains/folder/AddLink";
 import FolderLists from "../../components/domains/folder/FolderLists";
 import Footer from "../../components/commons/Footer";
 import FolderAddButton from "../../components/domains/folder/FolderAddButton";
+import SearchBar from "../../components/commons/SearchBar";
 
 function FolderPage() {
   return (
@@ -13,6 +13,7 @@ function FolderPage() {
       <main>
         <AddLink />
         <StyledFolder>
+          <SearchBar />
           <FolderLists />
           <FolderAddButton />
         </StyledFolder>

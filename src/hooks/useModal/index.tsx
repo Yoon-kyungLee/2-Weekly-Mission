@@ -1,8 +1,7 @@
-import { FC, useState, ReactNode } from "react";
+import { useState, ReactNode } from "react";
 import styled from "styled-components";
 import exitIcon from "../../assets/exit-icon.png";
 import ShareButtons from "../../components/domains/folder/ShareButtons";
-import React from "react";
 
 export interface ModalProps {
   title: string;
@@ -13,6 +12,7 @@ export interface ModalProps {
   color?: "blue" | "red";
   shareSNS?: boolean;
   folderId?: number;
+  placeholder?: string;
 }
 
 const useModal = () => {
@@ -25,7 +25,7 @@ const useModal = () => {
     setModalOpen(false);
   };
 
-  const Modal: FC<ModalProps> = ({ title, link, list, input, button, color, shareSNS, folderId }) =>
+  const Modal = ({ title, link, list, input, button, color, shareSNS, folderId, placeholder }: ModalProps) =>
     modalOpen ? (
       <ModalBackground>
         <ModalBox>
@@ -38,7 +38,7 @@ const useModal = () => {
               <ModalLink>{link}</ModalLink>
             </ModalTop>
             {list && <ModalList>{list}</ModalList>}
-            {input && <ModalInput />}
+            {input && <ModalInput placeholder={placeholder} />}
             {button && (
               <ModalButton onClick={closeModal} color={color as "blue" | "red"}>
                 {button}
@@ -66,7 +66,6 @@ const ModalBackground = styled.div`
   top: 0;
   width: 100%;
   height: 100%;
-  z-index: 2;
 `;
 
 const ModalBox = styled.div`
@@ -77,7 +76,6 @@ const ModalBox = styled.div`
   border-radius: 1.5rem;
   border: 1px solid #dee2e6;
   padding: 3.2rem 4rem;
-  z-index: 3;
 `;
 
 const ModalContainer = styled.div`
