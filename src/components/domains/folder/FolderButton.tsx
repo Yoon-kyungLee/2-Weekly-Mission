@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 interface FolderButtonProps {
   folderName: string;
   folderId?: number;
-  onFolderClick: (folder: { folderId: number; folderName: string }) => void;
+  onFolderClick: (folder: { folderId: number | null; folderName: string }) => void;
   isActive?: boolean;
 }
 
@@ -14,7 +14,7 @@ function FolderButton({ folderId, folderName, onFolderClick }: FolderButtonProps
   };
 
   return (
-    <Link to={`/folder/${folderId}`}>
+    <Link to={`/folder/${folderId || ""}`}>
       <StyledFolderButton onClick={handleFolderClick}>{folderName}</StyledFolderButton>
     </Link>
   );

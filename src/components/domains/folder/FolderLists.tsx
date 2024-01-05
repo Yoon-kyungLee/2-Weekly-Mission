@@ -8,7 +8,7 @@ import addIcon from "../../../assets/add-icon.svg";
 import { FolderData, LinkData } from "../../../utils/interface";
 
 interface SelectedFolder {
-  id: any;
+  id: number | null;
   name: string;
   link?: LinkData[];
 }

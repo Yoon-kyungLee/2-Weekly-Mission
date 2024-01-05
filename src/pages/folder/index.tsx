@@ -4,7 +4,7 @@ import AddLink from "../../components/domains/folder/AddLink";
 import FolderLists from "../../components/domains/folder/FolderLists";
 import Footer from "../../components/commons/Footer";
 import FolderAddButton from "../../components/domains/folder/FolderAddButton";
-import SearchBar from "../../components/commons/SearchBar";
+// import SearchBar from "../../components/commons/SearchBar";
 
 function FolderPage() {
   return (
@@ -13,7 +13,7 @@ function FolderPage() {
       <main>
         <AddLink />
         <StyledFolder>
-          <SearchBar />
+          {/* <SearchBar /> */}
           <FolderLists />
           <FolderAddButton />
         </StyledFolder>
