@@ -5,7 +5,8 @@ import FolderButton from "./FolderButton";
 import FolderCardList from "./FolderCardList";
 import Option from "./Option";
 import addIcon from "../../../assets/add-icon.svg";
-import { FolderData, LinkData } from "../../../utils/interface";
+import { FolderData, LinkData } from "../../../utils/type";
+import SearchBar from "../../commons/SearchBar";
 
 interface SelectedFolder {
   id: number | null;
@@ -18,10 +19,10 @@ function FolderLists() {
   const [selected, setSelected] = useState<SelectedFolder>({
     id: null,
     name: "전체",
-    // link: [],
+    link: [],
   });
-  // const [search, setSearch] = useState<string>("");
-  // const [filteredLinks, setFilteredLinks] = useState<LinkData[]>([]);
+  const [search, setSearch] = useState<string>("");
+  const [filteredLinks, setFilteredLinks] = useState<LinkData[]>([]);
 
   useEffect(() => {
     const fetchFolders = async () => {
@@ -35,21 +36,31 @@ function FolderLists() {
 
   const isFolderSelected = selected.id !== null && selected.name !== "전체";
 
-  // useEffect(() => {
-  //   const lowerCasedValue = search.toLowerCase();
-  //   if (search) {
-  //     const filtered = selected.link.filter((link) => {
-  //       return (
-  //         (link.url && link.url.includes(lowerCasedValue)) ||
-  //         (link.title && link.title.includes(lowerCasedValue)) ||
-  //         (link.description && link.description.includes(lowerCasedValue))
-  //       );
-  //     });
-  //     setFilteredLinks(filtered);
-  //   } else {
-  //     setFilteredLinks(selected.link);
-  //   }
-  // }, [search, selected.link]);
+  const handleSearchChange = (searchValue: string) => {
+    setSearch(searchValue);
+  };
+
+  useEffect(() => {
+    console.log("useEffect is being called");
+    console.log("Search:", search);
+    console.log("Selected Links:", selected.link);
+
+    const lowerCasedValue = search.toLowerCase();
+    if (search) {
+      const filtered = selected.link.filter((link) => {
+        const shouldInclude =
+          (link.url && link.url.includes(lowerCasedValue)) ||
+          (link.title && link.title.includes(lowerCasedValue)) ||
+          (link.description && link.description.includes(lowerCasedValue));
+
+        return shouldInclude;
+      });
+      setFilteredLinks(filtered);
+    } else {
+      // 검색어가 없을 경우, 선택한 폴더의 링크를 사용합니다. selected.link 대신에 selected.link를 사용합니다.
+      setFilteredLinks(selected.link);
+    }
+  }, [search, selected.link]);
 
   const handleFolderClick = ({ folderId, folderName }: { folderId: number; folderName: string }) => {
     setSelected({ id: folderId, name: folderName, link: [] });
@@ -57,6 +68,7 @@ function FolderLists() {
 
   return (
     <>
+      <SearchBar onSearchChange={handleSearchChange} />
       <StyledFolders>
         <StyledFoldersTop>
           <StyledFolderButtons>
@@ -76,7 +88,7 @@ function FolderLists() {
           <StyledFolderName>{selected.name}</StyledFolderName>
           {isFolderSelected ? <Option folderName={selected.name} folderId={selected.id} /> : null}
         </StyledNameAndOption>
-        <FolderCardList folderId={selected.id} />
+        <FolderCardList folderId={selected.id} link={filteredLinks} />
       </StyledFolders>
     </>
   );

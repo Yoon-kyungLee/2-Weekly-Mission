@@ -1,7 +1,7 @@
-import { useState, useEffect, FC, useRef } from "react";
+import { useState, useEffect, FC, forwardRef } from "react";
 import styled from "styled-components";
 import { getLinks, getFolders } from "../../../services/api";
-import { LinkData, FolderData } from "../../../utils/interface";
+import { LinkData, FolderData } from "../../../utils/type";
 import addLink from "../../../assets/add-link.png";
 import checkIcon from "../../../assets/check.svg";
 import useModal, { ModalProps } from "../../../hooks/useModal";
@@ -67,48 +67,21 @@ function FolderLinks() {
   );
 }
 
-function AddLink() {
+interface AddLinkProps {
+  $isSticky: boolean;
+}
+
+const AddLink = forwardRef<HTMLDivElement, AddLinkProps>(({ $isSticky }, ref) => {
   const { Modal, openModal } = useModal();
   const [linkInput, setLinkInput] = useState("");
-  // const addLinkRef = useRef<HTMLDivElement>(null);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setLinkInput(e.target.value);
   };
 
-  // useEffect(() => {
-  //   const currentRef = addLinkRef.current;
-  //   const options = {
-  //     threshold: 0.1,
-  //   };
-
-  //   const observer = new IntersectionObserver((entries) => {
-  //     entries.forEach((entry) => {
-  //       if (entry.isIntersecting) {
-  //         // 상단에서는 가려줌
-  //         currentRef.style.position = "absolute";
-  //       } else {
-  //         // 푸터가 시작되는 지점부터는 최하단에 고정
-  //         currentRef.style.position = "fixed";
-  //       }
-  //     });
-  //   }, options);
-
-  //   if (currentRef) {
-  //     observer.observe(currentRef);
-  //   }
-
-  //   return () => {
-  //     if (currentRef) {
-  //       observer.unobserve(currentRef);
-  //     }
-  //   };
-  // }, []);
-
   return (
-    // <AddLinkSection ref={addLinkRef}>
-    <StyledAddLinkSection>
-      <StyledAddLinkBar>
+    <StyledAddLinkSection ref={ref}>
+      <StyledAddLinkBar $isSticky={$isSticky}>
         <StyledAddLinkContainer>
           <StyledAddLinkInput placeholder="링크를 추가해 보세요" value={linkInput} onChange={handleInputChange} />
           <StyledAddLinkImg src={addLink} alt="링크 아이콘" />
@@ -126,7 +99,7 @@ function AddLink() {
       </StyledAddLinkBar>
     </StyledAddLinkSection>
   );
-}
+});
 
 export default AddLink;
 
@@ -135,10 +108,14 @@ const StyledAddLinkSection = styled.div`
   padding: 3.2rem;
 `;
 
-const StyledAddLinkBar = styled.div`
+const StyledAddLinkBar = styled.div<AddLinkProps>`
   background-color: var(--gray-bg-color);
   padding: 2.4rem;
   z-index: 9;
+  position: ${(props) => (props.$isSticky ? "static" : "fixed")};
+  bottom: ${(props) => (props.$isSticky ? "atuo" : "0px")};
+  left: ${(props) => (props.$isSticky ? "auto" : "0px")};
+  width: 100%;
 
   @media (max-width: 1200px) {
     padding-left: 3.2rem;

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { getLinks } from "../../../services/api";
-import { LinkData } from "../../../utils/interface";
+import { LinkData } from "../../../utils/type";
 import styled from "styled-components";
 import Kebab from "./Kebab";
 import formatTimeAgo from "../../../utils/formatTimeAgo";
@@ -43,7 +43,7 @@ function FolderCard({ card }: FolderCardProps) {
   );
 }
 
-function FolderCardList({ folderId }: FolderCardListProps) {
+function FolderCardList({ folderId, link }: FolderCardListProps) {
   const [links, setLinks] = useState<LinkData[]>([]);
 
   useEffect(() => {

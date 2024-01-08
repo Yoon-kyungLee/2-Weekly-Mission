@@ -3,37 +3,26 @@ import styled from "styled-components";
 import searchIcon from "../../assets/Search.png";
 import closeIcon from "../../assets/_close.png";
 
-interface SearchBarProps {
-  onSearch: (value: string) => void;
-}
-
-function SearchBar({ onSearch }: SearchBarProps) {
+function SearchBar({ onSearchChange }: { onSearchChange: (value: string) => void }) {
   const [value, setValue] = useState("");
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value);
-  };
-
-  const handleSearch = () => {
-    onSearch(value);
-  };
-
-  const handleClear = () => {
-    setValue("");
+    onSearchChange(e.target.value);
   };
 
   return (
     <div>
       <SearchBarContainer>
         <SearchIcon src={searchIcon} alt="검색 아이콘" />
-        <SearchBarInput
-          placeholder="링크로 검색해 보세요."
-          value={value}
-          onChange={handleChange}
-          onKeyDown={(e) => e.key === "Enter" && handleSearch()}
-        />
-        {value && <CloseIcon onClick={handleClear} />}
+        <SearchBarInput type="search" placeholder="링크로 검색해 보세요." value={value} onChange={handleChange} />
+        {value && <CloseIcon onClick={() => setValue("")} />}
       </SearchBarContainer>
+      {value !== "" ? (
+        <SearchResult>
+          <span>{value}</span>로 검색한 결과입니다.
+        </SearchResult>
+      ) : null}
     </div>
   );
 }
@@ -70,4 +59,15 @@ const CloseIcon = styled.button`
   transform: translateY(-50%);
   background-image: url(${closeIcon});
   background-size: 100%;
+`;
+
+const SearchResult = styled.div`
+  font-size: 3.2rem;
+  margin-bottom: 4rem;
+  color: rgba(159, 166, 178, 1);
+
+  span {
+    font-size: 3.2rem;
+    color: rgba(55, 55, 64, 1);
+  }
 `;
